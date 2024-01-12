@@ -110,7 +110,7 @@ namespace Scala.StockSimulation.Web.Controllers
                     user = await _userManager.FindByNameAsync(accountRegisterViewModel.Email);
                     await _userManager.AddToRoleAsync(user, "Student");
                 }
-                await SendValidationEmail(user);
+                await SendValidationEmail(user, accountRegisterViewModel.Password);
             }
             else
             {
@@ -121,7 +121,7 @@ namespace Scala.StockSimulation.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        private async Task<IActionResult> SendValidationEmail(ApplicationUser user)
+        private async Task<IActionResult> SendValidationEmail(ApplicationUser user, string password)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var confirmationLink = _linkGenerator.GetUriByAction
@@ -140,7 +140,7 @@ namespace Scala.StockSimulation.Web.Controllers
             {
                 Text = $"<h5>Please confirm your emailadress</h5>" +
                 $"<p>Please confirm your emailadress by clicking " +
-                $"<a href='{confirmationLink}'>here</a>",
+                $"<a href='{confirmationLink}'>here</a>, Your password is {password}</p>",
             };
             using var smtpClient = new SmtpClient();
             await smtpClient.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
@@ -199,6 +199,7 @@ namespace Scala.StockSimulation.Web.Controllers
 
                 while (reader.Read())
                 {
+                    var password = GeneratePassword();
                     var email = GetColumnValue(reader, columnNames, "Firstname") + "." + GetColumnValue(reader, columnNames, "Lastname").Replace(" ", "") + "@scala.be";
                     var user = await _userManager.FindByNameAsync(email);
                     if (user == null)
@@ -210,28 +211,45 @@ namespace Scala.StockSimulation.Web.Controllers
                             Firstname = GetColumnValue(reader, columnNames, "Firstname"),
                             Lastname = GetColumnValue(reader, columnNames, "Lastname")
                         };
-                        var result = await _userManager.CreateAsync(user, GetColumnValue(reader, columnNames, "Password"));
+                        var result = await _userManager.CreateAsync(user, password);
                         if (result.Succeeded)
                         {
                             user = await _userManager.FindByNameAsync(email);
                             await _userManager.AddToRoleAsync(user, GetColumnValue(reader, columnNames, "Role"));
+                            await SendValidationEmail(user, password);
                         }
                     }
                     else
                     {
                         await _userManager.RemoveFromRoleAsync(user, GetColumnValue(reader, columnNames, "Role"));
                         await _userManager.DeleteAsync(user);
-                        var result = await _userManager.CreateAsync(user, GetColumnValue(reader, columnNames, "Password"));
+                        var result = await _userManager.CreateAsync(user, password);
                         if (result.Succeeded)
                         {
                             user = await _userManager.FindByNameAsync(email);
                             await _userManager.AddToRoleAsync(user, GetColumnValue(reader, columnNames, "Role"));
+                            await SendValidationEmail(user, password);
                         }
                     }
                 }
                 ModelState.AddModelError("", "Importeren is gelukt");
             }
             return View();
+        }
+
+        /*
+            This method generates a random password for new users 
+        */
+        private string GeneratePassword()
+        {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[8];
+            var random = new Random();
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+            return new string(stringChars);
         }
 
         /*
@@ -251,6 +269,30 @@ namespace Scala.StockSimulation.Web.Controllers
             HttpContext.Session.Remove("userId");
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(AccountChangePasswordViewModel accountChangePasswordViewModel)
+        {
+            var user = await _userManager.FindByIdAsync(HttpContext.Session.GetString("userId"));
+            if (!ModelState.IsValid)
+            {
+                return View(accountChangePasswordViewModel);
+            }
+            var result = await _userManager.ChangePasswordAsync(user, accountChangePasswordViewModel.OldPassword, accountChangePasswordViewModel.NewPassword);
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Wrong credentials!");
+                return View(accountChangePasswordViewModel);
+            }
+            return RedirectToAction("login");
         }
     }
 }

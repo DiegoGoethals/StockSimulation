@@ -71,7 +71,7 @@ namespace Scala.StockSimulation.Web.Areas.Admin.Controllers
         {
             var user = _applicationDbContext.ApplicationUsers.FirstOrDefault(x => x.Id == Guid.Parse(HttpContext.Session.GetString("userId")));
             var userRole = _applicationDbContext.UserRoles.FirstOrDefault(ur => ur.UserId.Equals(user.Id));
-            var studentIds = _applicationDbContext.UserRoles.Where(ur => !ur.UserId.Equals(user.Id))
+            var studentIds = _applicationDbContext.UserRoles.Where(ur => ur.RoleId != userRole.RoleId)
                 .Select(Id => Id.UserId).ToList();
             var students = _applicationDbContext.ApplicationUsers.Where(u => studentIds.Contains(u.Id)).ToList();
             var showStudentsViewModel = new ShowStudentsViewModel
