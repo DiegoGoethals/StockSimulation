@@ -1,0 +1,13 @@
+﻿<link rel="stylesheet" href="/css/Shared.css" />
+<partial name="_LogoutButton" />
+<h1>Importeer nieuwe startgegevens</h1>
+<a href="~/templates/TestExcel.xlsx" download="TestExcel.xlsx" class="btn btn-primary">Download Template</a>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+}
+<form asp-controller="Admin" asp-action="ImportStartSituation" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <button type="submit">Importeer</button>
+</form>
+<a asp-action="Index" class="btn btn-secondary">Terug</a>

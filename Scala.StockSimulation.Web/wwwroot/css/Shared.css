@@ -1,0 +1,82 @@
+﻿html {
+    font-size: 14px;
+    position: relative;
+    margin: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    background: linear-gradient(135deg, #ececec 25%, #f9f9f9 25%, #f9f9f9 50%, #ececec 50%, #ececec 75%, #f9f9f9 75%, #f9f9f9);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 60px;
+}
+
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: rgba(128, 128, 128, 0.25);
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #BFC0C0;
+    transition: border-color 0.3s;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+    button:hover {
+        border-color: #b1917a;
+    }
+
+body {
+    margin-bottom: 60px;
+}
+
+@media (max-width: 600px) {
+    table, form {
+        width: 90%;
+    }
+}
+
+.custom-select {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+input[type='number'] {
+    background-color: #f9f9f9;
+}

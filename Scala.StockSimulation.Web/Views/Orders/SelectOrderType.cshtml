@@ -1,0 +1,22 @@
+﻿@model SelectOrderTypeParentViewModel
+
+@{
+    Layout = "_Layout"; // or your layout page
+}
+<link rel="stylesheet" href="/css/Shared.css" />
+<partial name="_LogoutButton" />
+<h1>Welke bestelling?</h1>
+
+<div class="order-type-container">
+    @foreach (var orderType in Model.OrderTypes)
+    {
+        <div class="select-order-type-button">
+            <form asp-controller="Orders" asp-action="SelectOrderType" method="post">
+                <input type="hidden" name="selectedOrderTypeName" value="@orderType.Name" />
+                <input type="hidden" name="SelectedOrderTypeId" value="@orderType.Id" />
+                <button type="submit">@orderType.Name</button>
+            </form>
+        </div>
+    }
+</div>
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Scala.StockSimulation.Web.ViewModels.OrderViewModel>
+
+@{
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="/css/Shared.css" />
+<partial name="_LogoutButton" />
+<h2>Alle bestellingen</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Bestellingstype</th>
+            <th>Status</th>
+            <th>Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Created.ToString("dd/MM/yyyy")</td>
+                <td>@order.OrderType</td>
+                <td>
+                    @if (order.IsDelivered)
+                    {
+                        <span>GELEVERD</span>
+                    }
+                    else
+                    {
+                        <form asp-action="ProductsDelivered" asp-controller="Orders" method="post">
+                            <input type="hidden" name="orderId" value="@order.OrderId" />
+                            <button type="submit" class="btn btn-primary">Lever aan @(order.OrderType)</button>
+                        </form>
+                    }
+                </td>
+                <td>
+                    <a asp-action="OrderInfo" asp-route-orderId="@order.OrderId" class="btn btn-info">Info</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="OrderOverview" class="btn btn-secondary">Terug</a>

@@ -1,0 +1,76 @@
+﻿@model OrderOverviewViewModel
+<link rel="stylesheet" href="/css/Shared.css" />
+<partial name="_LogoutButton" />
+<h2>Resultaat van je bestelling voor @Model.OrderType: Bestelling geplaatst</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Fysieke voorraad</th>
+            <th scope="col">Fictieve voorraad</th>
+            <th scope="col">Binnenkort beschikbare voorraad</th>
+            <th scope="col">Gereserveerde voorraad</th>
+            <th scope="col">Max voorraad</th>
+            <th scope="col">Min voorraad</th>
+            <th scope="col">Aantal producten</th>
+        </tr>
+    </thead>
+    <tbody class="table table-bordered table-striped">
+        @foreach (var product in Model.UserProductState)
+        {
+            <tr>
+                <td>
+                    @product.Product
+                </td>
+                <td>
+                    @product.PhysicalStock
+                </td>
+                <td>
+                    @product.FictionalStock
+                </td>
+                <td>
+                    @product.SoonAvailableStock
+                </td>
+                <td>
+                    @product.ReservedStock
+                </td>
+                @if (product.PhysicalStock > product.MaximumStock)
+                {
+                    <td class="text-danger">
+                        @product.MaximumStock
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @product.MaximumStock
+                    </td>
+                }
+                @if (product.PhysicalStock < product.MinimumStock)
+                {
+                    <td class="text-danger">
+                        @product.MinimumStock
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @product.MinimumStock
+                    </td>
+                }
+                <td>
+                    @product.Quantity
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<form asp-controller="Orders" asp-action="SelectOrderType" method="get">
+    <button type="submit" class="btn btn-primary">Nieuwe bestelling</button>
+</form>
+<form asp-controller="Overview" asp-action="Index" method="get">
+    <button type="submit" class="btn btn-primary">Terug naar overzicht</button>
+</form>

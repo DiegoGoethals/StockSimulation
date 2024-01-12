@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+<link rel="stylesheet" href="/css/HomeIndex.css" />
+<link rel="stylesheet" href="/css/Shared.css" />
+</head>
+<body>
+    <div class="content">
+        <h1 class="display-4">Welkom</h1>
+        <p>Welkom bij Cvo-Scala StockSimulation</p>
+    </div>
+</body>
+<form asp-controller="Account" asp-action="Login" method="get">
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+</html>
+

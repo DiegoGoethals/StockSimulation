@@ -1,0 +1,30 @@
+﻿.product-selection {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 30px auto;
+}
+
+    .product-selection form {
+        margin-top: 20px;
+    }
+
+    .product-selection .product-item {
+        background-color: #f9f9f9;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+        .product-selection .product-item label {
+            margin-left: 10px;
+        }
+
+    .product-selection .submit-button {
+        margin-top: 20px;
+    }

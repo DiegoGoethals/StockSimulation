@@ -1,0 +1,24 @@
+﻿<link rel="stylesheet" href="~/css/Shared.css" />
+<partial name="_LogoutButton"/>
+<h1>Admin</h1>
+<form asp-controller="Admin" asp-action="ShowStudents" method="get">
+    <button type="submit" class="btn btn-primary">Leerlingen</button>
+</form>
+<form asp-controller="Account" asp-action="Register" asp-area="" method="get">
+    <button type="submit" class="btn btn-primary">Registreer een leerling</button>
+</form>
+<form asp-controller="Account" asp-area="" asp-action="RegisterImport">
+    <button type="submit" class="btn btn-primary">Registreer via excel file</button>
+</form>
+<form asp-controller="Admin" asp-action="ShowResults" method="get">
+    <button type="submit" class="btn btn-primary">Zoeken</button>
+</form>
+<form asp-controller="Admin" asp-action="ImportStartSituation" method="get">
+    <button type="submit" class="btn btn-primary">Nieuwe Startsituatie importeren</button>
+</form>
+<form asp-controller="Admin" asp-action="ShowExportOrderItems" method="get">
+    <button type="submit" class="btn btn-primary">Exporteer order data</button>
+</form>
+<form asp-controller="Overview" asp-action="Index" asp-area="">
+    <button type="submit" class="btn btn-primary">Demo</button>
+</form>

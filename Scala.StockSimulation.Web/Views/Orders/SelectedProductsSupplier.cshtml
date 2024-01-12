@@ -1,0 +1,85 @@
+﻿@model SelectedProductsSupplierViewModel
+<link rel="stylesheet" href="/css/Shared.css" />
+<partial name="_LogoutButton" />
+<h2>Resultaat van je bestelling bij @ViewBag.SupplierName: bestelling geplaatst</h2>
+<form asp-controller="Orders" asp-action="PlaceOrder" method="post">
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Fysieke voorraad</th>
+            <th scope="col">Fictieve voorraad</th>
+            <th scope="col">Binnenkort beschikbare voorraad</th>
+            <th scope="col">Gereserveerde voorraad</th>
+            <th scope="col">Max voorraad</th>
+            <th scope="col">Min voorraad</th>
+            <th scope="col">Aantal producten</th>
+        </tr>
+    </thead>
+    <tbody class="table table-bordered table-striped">
+        @for(var i = 0; i < Model.UserProductState.Count; i++)
+        {
+            <tr>
+                <td>
+                        @Model.UserProductState[i].Name
+                        <input type="hidden" asp-for="@Model.UserProductState[i].Name" />
+                </td>
+                <td>
+                        @Model.UserProductState[i].PhysicalStock
+                        <input type="hidden" asp-for="@Model.UserProductState[i].PhysicalStock" />
+                </td>
+                <td>
+                        @Model.UserProductState[i].FictionalStock
+                        <input type="hidden" asp-for="@Model.UserProductState[i].FictionalStock" />
+                </td>
+                <td>
+                        @Model.UserProductState[i].SoonAvailableStock
+                        <input type="hidden" asp-for="@Model.UserProductState[i].SoonAvailableStock" />
+                </td>
+                <td>
+                        @Model.UserProductState[i].ReservedStock
+                        <input type="hidden" asp-for="@Model.UserProductState[i].ReservedStock" />
+                </td>
+                    @if (Model.UserProductState[i].PhysicalStock > Model.UserProductState[i].MaximumStock)
+                    {
+                        <td class="text-danger">
+                            @Model.UserProductState[i].MaximumStock
+                            <input type="hidden" asp-for="@Model.UserProductState[i].MaximumStock" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Model.UserProductState[i].MaximumStock
+                            <input type="hidden" asp-for="@Model.UserProductState[i].MaximumStock" />
+                        </td>
+                    }
+                    @if (Model.UserProductState[i].PhysicalStock < Model.UserProductState[i].MinimumStock)
+                    {
+                        <td class="text-danger">
+                            @Model.UserProductState[i].MinimumStock
+                            <input type="hidden" asp-for="@Model.UserProductState[i].MinimumStock" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Model.UserProductState[i].MinimumStock
+                            <input type="hidden" asp-for="@Model.UserProductState[i].MinimumStock" />
+                        </td>
+                    }
+                <td>
+                    <input type="number" asp-for="@Model.UserProductState[i].OrderItem.Quantity" value="@Model.UserProductState[i].OrderItem.Quantity" />
+                    <input type="hidden" asp-for="@Model.UserProductState[i].Id" />
+                   <input type="hidden" asp-for="@Model.UserProductState[i].OrderItem.ProductId" />
+                </td>
+            </tr>
+        }
+
+    </tbody>
+    
+</table>
+
+    <button type="submit" class="btn btn-primary">Plaats bestelling</button>
+</form>
+

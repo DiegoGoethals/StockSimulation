@@ -1,0 +1,39 @@
+﻿@model List<Scala.StockSimulation.Web.ViewModels.OrderViewModel>
+<partial name="_LogoutButton" />
+@{
+    ViewData["Title"] = "Order Overview";
+}
+<link rel="stylesheet" href="/css/Shared.css" />
+
+@{int i = 0;}
+<h2>Besteloverzicht voor gebruiker @Model[i].UserName </h2>
+
+@if (Model.Count == 0)
+{
+    <p>Er zijn geen bestellingen gevonden voor deze gebruiker.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Bestellingstype</th>
+                <th>Status</th>
+                <th>Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Created</td>
+                    <td>@order.OrderType</td>
+                    <td>@order.Status</td>
+                    <td><a asp-action="ShowOrderItems" asp-route-orderId="@order.OrderId" class="btn btn-primary">Info</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="admin" asp-action="ShowStudents" class="btn btn-secondary">Terug</a>
+}

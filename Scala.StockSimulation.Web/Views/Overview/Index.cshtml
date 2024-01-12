@@ -1,0 +1,16 @@
+﻿@model OverviewIndexViewModel
+<link rel="stylesheet" href="/css/Shared.css" />
+<partial name="_LogoutButton" />
+<h1>Overzicht</h1>
+
+<div>
+    @if (Model.Checker)
+    {
+        <a asp-action="SelectOrderType" asp-controller="Orders" class="btn btn-secondary">Nieuwe Bestelling</a>
+        <a asp-action="OrderOverview" class="btn btn-secondary">Alle bestellingen</a>
+    }
+    else
+    {
+        <a asp-action="InitStartSituation" class="btn btn-secondary">Initialiseer startsituatie</a>
+    }
+</div>

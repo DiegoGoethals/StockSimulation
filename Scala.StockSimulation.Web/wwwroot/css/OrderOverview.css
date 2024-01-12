@@ -1,0 +1,33 @@
+﻿.order-overview {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+    .order-overview h2 {
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .order-overview .table-container {
+        overflow-x: auto;
+    }
+
+    .order-overview table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .order-overview th,
+    .order-overview td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .order-overview th {
+        background-color: #f4f4f4;
+    }

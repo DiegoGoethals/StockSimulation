@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "_Layout"; // Or your specific layout
+}
+<link rel="stylesheet" href="/css/Shared.css" />
+<partial name="_LogoutButton" />
+<h2>Bestelartikelen exporteren</h2>
+<p>Klik op onderstaande knop om de bestelartikelen in Excel-formaat te downloaden.</p>
+
+<form asp-controller="Admin" asp-action="ExportOrderItems" method="post">
+    <button type="submit" class="btn btn-primary">Download Excel File</button>
+</form>
+<a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Terug</a>

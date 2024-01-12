@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Scala.StockSimulation.Web.ViewModels.UserProductStateViewModel>
+
+@{
+    Layout = "_Layout"; // Assuming you have a standard layout
+}
+<link rel="stylesheet" href="/css/Shared.css" />
+<partial name="_LogoutButton" />
+<h2>Alle bestellingen van @Model.ElementAt(0).OrderId: @Model.ElementAt(0).UserName</h2>
+
+@if (!Model.Any())
+{
+    <p>Geen bestelgegevens gevonden</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Fysieke Voorraad</th>
+                <th>Fictieve Voorraad</th>
+                <th>Binnenkort Beschikbare Voorraad</th>
+                <th>Gereserveerde Voorraad</th>
+                <th>Max Voorraad</th>
+                <th>Min Voorraad</th>
+                <th>Aantal Besteld</th>
+                <th>Status</th>
+                <th>Besteldatum</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.PhysicalStock</td>
+                    <td>@item.FictionalStock</td>
+                    <td>@item.SoonAvailableStock</td>
+                    <td>@item.ReservedStock</td>
+                    @if (item.PhysicalStock > item.MaximumStock)
+                    {
+                        <td class="text-danger">
+                            @item.MaximumStock
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @item.MaximumStock
+                        </td>
+                    }
+                    @if (item.PhysicalStock < item.MinimumStock)
+                    {
+                        <td class="text-danger">
+                            @item.MinimumStock
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @item.MinimumStock
+                        </td>
+                    }
+                    <td>@item.QuantityOrdered</td>
+                    <td>@item.Status</td>
+                    <td>@item.Date.ToString("dd/MM/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="admin" asp-action="ShowAllOrders" asp-route-applicationUserId="@ViewBag.UserId" class="btn btn-secondary">Terug</a>
+
+}

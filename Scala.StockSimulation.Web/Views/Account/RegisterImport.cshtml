@@ -1,0 +1,12 @@
+﻿<link rel="stylesheet" href="/css/Shared.css" />
+<h1>Importeer Studenten</h1>
+<a href="~/templates/TestRegisterExcel.xlsx" download="TestRegisterExcel.xlsx" class="btn btn-primary">Download Template</a>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+}
+<form asp-controller="Account" asp-action="RegisterImport" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <button type="submit">Importeer</button>
+</form>
+<a asp-action="Index" asp-area="Admin" asp-controller="Admin" class="btn btn-secondary">Terug</a>

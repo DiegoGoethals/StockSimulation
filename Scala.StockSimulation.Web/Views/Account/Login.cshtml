@@ -1,0 +1,20 @@
+﻿@model AccountLoginViewModel
+<link rel="stylesheet" href="/css/Shared.css" />
+<div class="col-lg-4 mx-auto table-bordered m-4 p-4">
+    <h3>Log in</h3>
+    <form asp-controller="Account" asp-action="Login" method="post" class="m-2 p-2">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="alert text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="alert text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Log in</button>
+    </form>
+</div>
+
